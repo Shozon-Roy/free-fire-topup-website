@@ -2,6 +2,15 @@
 
 # 🔥 Free Fire Top-Up Website
 
+
+<div align="center">
+  
+  <!-- Small Logo -->
+  <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/Polish_20260722_022100116.png" alt="Logo" width="120"/>
+  <br><br> 
+  
+</div>
+  
 **A fully functional Free Fire top-up platform built with modern web technologies. This project provides a seamless and secure way for users to top up their Free Fire accounts, featuring a responsive design, admin dashboard, and secure payment integration.**
 
 [![Live Demo](https://img.shields.io/badge/📢_Demo-Available-green?style=for-the-badge)](#)
@@ -15,6 +24,12 @@
 
 ## 📖 Description
 
+<div align="center">
+  
+  <!-- Full Width Banner -->
+  <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260726_173744.jpg" alt="Banner" width="100%"/>
+  <br><br>
+</div>
 This Free Fire Top-Up Website is designed to offer a smooth and reliable experience for gamers looking to recharge their Free Fire accounts. The platform is built with scalability and performance in mind, using a modern tech stack to ensure fast loading times and excellent user experience across all devices.
 
 The admin dashboard allows easy management of orders, users, and payments, making it a **complete solution** for running a Free Fire top-up business.
@@ -72,14 +87,6 @@ The admin dashboard allows easy management of orders, users, and payments, makin
 
 <div align="center">
   
-  <!-- Small Logo -->
-  <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/Polish_20260722_022100116.png" alt="Logo" width="120"/>
-  <br><br>
-  
-  <!-- Full Width Banner -->
-  <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260726_173744.jpg" alt="Banner" width="100%"/>
-  <br><br>
-
   <!-- 3x3 Grid for Screenshots -->
   <table>
     <!-- Row 1 -->
