@@ -64,22 +64,74 @@ The admin dashboard allows easy management of orders, users, and payments, makin
 ✅ Easy to customize and extend
 ```
 
+
+
 ---
 
 ## 🖼️ Preview
 
-> 📸 **Website Screenshots & Demo Video Coming Soon**
-
 <div align="center">
+  
+  <!-- Small Logo -->
+  <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/Polish_20260722_022100116.png" alt="Logo" width="120"/>
+  <br><br>
+  
+  <!-- Full Width Banner -->
+  <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260726_173744.jpg" alt="Banner" width="100%"/>
+  <br><br>
 
-| Homepage | Admin Dashboard | Order Panel |
-|----------|----------------|-------------|
-| 🖼️ Preview | 🖼️ Preview | 🖼️ Preview |
+  <!-- 3x3 Grid for Screenshots -->
+  <table>
+    <!-- Row 1 -->
+    <tr>
+      <td align="center" width="33%">
+        <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_002523.png" alt="Homepage" width="100%"/>
+        <br><sub><b>🏠 Homepage</b></sub>
+      </td>
+      <td align="center" width="33%">
+        <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000015.png" alt="Top Up Page" width="100%"/>
+        <br><sub><b>🔥 Top Up Page</b></sub>
+      </td>
+      <td align="center" width="33%">
+        <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000114.png" alt="Premium User" width="100%"/>
+        <br><sub><b>👑 Premium User</b></sub>
+      </td>
+    </tr>
+    <!-- Row 2 -->
+    <tr>
+      <td align="center" width="33%">
+        <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000254.png" alt="Top Spend Leaderboard" width="100%"/>
+        <br><sub><b>🏆 Top Spend Leaderboard</b></sub>
+      </td>
+      <td align="center" width="33%">
+        <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000330.png" alt="Follow Us and Banners" width="100%"/>
+        <br><sub><b>📢 Follow Us & Banners</b></sub>
+      </td>
+      <td align="center" width="33%">
+        <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_002053.png" alt="Invite & Earn" width="100%"/>
+        <br><sub><b>🤝 Invite & Earn</b></sub>
+      </td>
+    </tr>
+    <!-- Row 3 -->
+    <tr>
+      <td align="center" width="33%">
+        <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000937.png" alt="Website Sidebar" width="100%"/>
+        <br><sub><b>📱 Website Sidebar</b></sub>
+      </td>
+      <td align="center" width="33%">
+        <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000812.png" alt="User Profile" width="100%"/>
+        <br><sub><b>👤 User Profile</b></sub>
+      </td>
+      <td align="center" width="33%">
+        <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000424.png" alt="Coin Convert Panel" width="100%"/>
+        <br><sub><b>🪙 Coin Convert Panel</b></sub>
+      </td>
+    </tr>
+  </table>
 
 </div>
 
 ---
-
 ## 📊 Business Opportunity
 
 ```
