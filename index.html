@@ -7,7 +7,7 @@
     <meta name="description" content="Fully functional Free Fire top-up platform. Auto UniPin, Auto Shell, Fully Automatic System.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script>
         tailwind.config = {
@@ -19,7 +19,8 @@
                     },
                     fontFamily: {
                         heading: ['Rajdhani', 'sans-serif'],
-                        body: ['Inter', 'sans-serif']
+                        body: ['Inter', 'Hind Siliguri', 'sans-serif'],
+                        bangla: ['Hind Siliguri', 'sans-serif']
                     }
                 }
             }
@@ -36,49 +37,183 @@
             --border: #e5e7eb;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--fg); font-family: 'Inter', sans-serif; }
+        /* ইন্টার ফন্টে বাংলা গ্লিফ নেই, তাই হিন্দ সিলিগুড়ি ফলব্যাক হবে */
+        body { background: var(--bg); color: var(--fg); font-family: 'Inter', 'Hind Siliguri', sans-serif; }
+        .font-bangla { font-family: 'Hind Siliguri', sans-serif; }
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: #f5f5f5; }
         ::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #a3a3a3; }
 
+        /* স্ক্রল রিভিল */
         .reveal {
             opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
+        /* ফিচার কার্ড */
         .feature-card {
             background: var(--card);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 20px;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            padding: 18px;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
         .feature-card:hover {
             border-color: #fdba74;
-            box-shadow: 0 4px 16px rgba(249,115,22,0.08);
+            box-shadow: 0 4px 16px rgba(249,115,22,0.07);
         }
 
-        .screenshot-card {
-            border: 1px solid var(--border);
-            border-radius: 12px;
+        /* ===== স্লাইডার ===== */
+        .slider-container {
+            position: relative;
+            width: 100%;
             overflow: hidden;
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            border-radius: 16px;
+            background: #f3f4f6;
+        }
+        .slider-track {
+            position: relative;
+            width: 100%;
+            padding-top: 160%; /* 9:14 এসপেক্ট রেশিও */
+        }
+        @media (min-width: 640px) {
+            .slider-track { padding-top: 100%; }
+        }
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.55s ease;
+            will-change: transform, opacity;
+            pointer-events: none;
+        }
+        .slide img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 16px;
+        }
+        /* অফসেট অনুযায়ী পজিশন */
+        .slide[data-offset="0"] {
+            transform: translateX(0) scale(1);
+            opacity: 1;
+            z-index: 3;
+            pointer-events: auto;
+        }
+        .slide[data-offset="-1"] {
+            transform: translateX(-80%) scale(0.88);
+            opacity: 0.35;
+            z-index: 2;
+        }
+        .slide[data-offset="1"] {
+            transform: translateX(80%) scale(0.88);
+            opacity: 0.35;
+            z-index: 2;
+        }
+        .slide[data-offset="-2"],
+        .slide[data-offset="2"] {
+            transform: translateX(-140%) scale(0.75);
+            opacity: 0;
+            z-index: 1;
+        }
+        .slide[data-offset="3"],
+        .slide[data-offset="-3"] {
+            opacity: 0;
+            z-index: 0;
+        }
+        /* ডার্ক ওভারলে সাইডে */
+        .slider-container::before,
+        .slider-container::after {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 25%;
+            z-index: 4;
+            pointer-events: none;
+        }
+        .slider-container::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(255,255,255,0.7), transparent);
+        }
+        .slider-container::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(255,255,255,0.7), transparent);
+        }
+        /* নেভিগেশন বাটন */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            background: #f9fafb;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
-        .screenshot-card:hover {
-            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-            transform: translateY(-2px);
+        .slider-btn:hover {
+            background: white;
+            border-color: #f97316;
+            color: #f97316;
+            box-shadow: 0 4px 12px rgba(249,115,22,0.15);
         }
-        .screenshot-card img { transition: transform 0.4s ease; }
-        .screenshot-card:hover img { transform: scale(1.03); }
+        .slider-btn.prev { left: 12px; }
+        .slider-btn.next { right: 12px; }
+        /* ডট ইন্ডিকেটর */
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 16px;
+        }
+        .slider-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #d4d4d4;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 0;
+        }
+        .slider-dot.active {
+            background: #f97316;
+            width: 24px;
+            border-radius: 4px;
+        }
 
+        /* নেভবার */
+        .nav-scrolled {
+            background: rgba(255,255,255,0.95) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .hero-pattern {
+            background-image: radial-gradient(circle at 1px 1px, #f0f0f0 1px, transparent 0);
+            background-size: 28px 28px;
+        }
+
+        .stat-divider {
+            width: 1px; height: 36px;
+            background: var(--border);
+        }
+        @media (max-width: 640px) {
+            .stat-divider { width: 36px; height: 1px; }
+        }
+
+        /* লাইটবক্স */
         .lightbox {
             position: fixed; inset: 0;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.88);
             z-index: 9999;
             display: none;
             align-items: center;
@@ -87,32 +222,8 @@
         }
         .lightbox.active { display: flex; }
         .lightbox img {
-            max-width: 90vw;
-            max-height: 88vh;
-            border-radius: 12px;
-            object-fit: contain;
-        }
-
-        .nav-scrolled {
-            background: rgba(255,255,255,0.92) !important;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-        }
-
-        .hero-pattern {
-            background-image: radial-gradient(circle at 1px 1px, #e5e7eb 1px, transparent 0);
-            background-size: 32px 32px;
-        }
-
-        .stat-divider {
-            width: 1px;
-            height: 40px;
-            background: var(--border);
-        }
-
-        @media (max-width: 640px) {
-            .stat-divider { width: 40px; height: 1px; }
+            max-width: 90vw; max-height: 88vh;
+            border-radius: 12px; object-fit: contain;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -127,19 +238,19 @@
 
     <!-- লাইটবক্স -->
     <div class="lightbox" id="lightbox" role="dialog" aria-label="Image preview">
-        <button onclick="closeLightbox()" class="absolute top-5 right-5 text-white/70 hover:text-white text-2xl transition z-10 w-10 h-10 flex items-center justify-center" aria-label="Close">
+        <button onclick="closeLightbox()" class="absolute top-5 right-5 text-white/60 hover:text-white text-2xl transition z-10 w-10 h-10 flex items-center justify-center" aria-label="Close">
             <i class="fas fa-xmark"></i>
         </button>
         <img src="" alt="Preview" id="lightbox-img">
     </div>
 
     <!-- নেভবার -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/70 transition-all duration-300" id="navbar">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/60 transition-all duration-300" id="navbar">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="flex items-center justify-between h-16">
-                <a href="#" class="flex items-center gap-2.5">
-                    <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/Polish_20260722_022100116.png" alt="Logo" class="w-8 h-8 rounded-lg object-cover">
-                    <span class="font-heading font-bold text-lg text-gray-900">FF <span class="text-brand-500">TopUp</span></span>
+                <!-- শুধু লোগো, কোনো টেক্সট নেই -->
+                <a href="#" class="flex-shrink-0">
+                    <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/Polish_20260722_022100116.png" alt="Logo" class="h-9 w-auto rounded-lg object-cover">
                 </a>
                 <div class="hidden md:flex items-center gap-8">
                     <a href="#features" class="text-sm text-gray-500 hover:text-brand-600 transition font-medium">Features</a>
@@ -156,19 +267,19 @@
         </div>
         <div class="md:hidden hidden bg-white border-t border-gray-100" id="mobile-menu">
             <div class="px-5 py-4 space-y-1">
-                <a href="#features" onclick="toggleMobile()" class="block text-gray-600 hover:text-brand-600 transition py-2.5 text-sm">Features</a>
-                <a href="#preview" onclick="toggleMobile()" class="block text-gray-600 hover:text-brand-600 transition py-2.5 text-sm">Preview</a>
-                <a href="#pricing" onclick="toggleMobile()" class="block text-gray-600 hover:text-brand-600 transition py-2.5 text-sm">Pricing</a>
+                <a href="#features" onclick="toggleMobile()" class="block text-gray-600 hover:text-brand-600 transition py-2.5 text-sm font-bangla">ফিচার</a>
+                <a href="#preview" onclick="toggleMobile()" class="block text-gray-600 hover:text-brand-600 transition py-2.5 text-sm font-bangla">প্রিভিউ</a>
+                <a href="#pricing" onclick="toggleMobile()" class="block text-gray-600 hover:text-brand-600 transition py-2.5 text-sm font-bangla">প্রাইস</a>
                 <a href="https://t.me/shozonroy2" target="_blank" class="block bg-brand-500 text-white text-center py-2.5 rounded-lg font-heading font-semibold text-sm mt-2">Buy Now</a>
             </div>
         </div>
     </nav>
 
     <!-- হিরো -->
-    <header class="pt-28 pb-16 sm:pt-32 sm:pb-20 relative overflow-hidden">
-        <div class="hero-pattern absolute inset-0 opacity-50"></div>
+    <header class="pt-28 pb-14 sm:pt-32 sm:pb-18 relative overflow-hidden">
+        <div class="hero-pattern absolute inset-0 opacity-60"></div>
         <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+            <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
                 <div class="space-y-6">
                     <div class="inline-flex items-center gap-2 bg-brand-50 border border-brand-200 rounded-full px-3.5 py-1">
                         <span class="w-1.5 h-1.5 bg-brand-500 rounded-full"></span>
@@ -180,7 +291,7 @@
                         <span class="text-brand-500">Top-Up Website</span>
                     </h1>
 
-                    <p class="text-gray-500 text-base sm:text-lg leading-relaxed max-w-md">
+                    <p class="text-gray-500 text-base sm:text-lg leading-relaxed max-w-md font-bangla">
                         Auto UniPin + Auto Shell Topup — সবকিছু Fully Automatic। টপআপ বিজনেস শুরু করার জন্য সম্পূর্ণ সমাধান।
                     </p>
 
@@ -193,7 +304,6 @@
                         </a>
                     </div>
 
-                    <!-- স্ট্যাটস -->
                     <div class="flex items-center gap-6 sm:gap-8 pt-4">
                         <div>
                             <div class="text-2xl font-heading font-bold text-gray-900">18+</div>
@@ -207,12 +317,11 @@
                         <div class="stat-divider"></div>
                         <div>
                             <div class="text-2xl font-heading font-bold text-brand-500">Free</div>
-                            <div class="text-xs text-gray-400 mt-0.5">Lifetime</div>
+                            <div class="text-xs text-gray-400 mt-0.5 font-bangla">লাইফটাইম</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ব্যানার -->
                 <div class="relative">
                     <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
                         <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260726_173744.jpg" alt="Free Fire TopUp Banner" class="w-full" loading="eager">
@@ -223,48 +332,66 @@
     </header>
 
     <!-- ফিচার সেকশন -->
-    <section class="py-16 sm:py-20 bg-gray-50" id="features">
+    <section class="py-14 sm:py-20 bg-gray-50/80" id="features">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-12 reveal">
-                <h2 class="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mb-3">
+            <div class="text-center mb-10 reveal">
+                <h2 class="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mb-2">
                     সবকিছু <span class="text-brand-500">Fully Automatic</span>
                 </h2>
-                <p class="text-gray-400 text-sm max-w-lg mx-auto">টপআপ বিজনেস শুরু করার জন্য প্রয়োজনীয় সকল ফিচার</p>
+                <p class="text-gray-400 text-sm font-bangla">টপআপ বিজনেস শুরু করার জন্য প্রয়োজনীয় সকল ফিচার</p>
             </div>
-
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4" id="features-grid"></div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3" id="features-grid"></div>
         </div>
     </section>
 
-    <!-- প্রিভিউ সেকশন -->
-    <section class="py-16 sm:py-20" id="preview">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-12 reveal">
-                <h2 class="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mb-3">
+    <!-- প্রিভিউ স্লাইডার সেকশন -->
+    <section class="py-14 sm:py-20" id="preview">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-10 reveal">
+                <h2 class="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mb-2">
                     ওয়েবসাইট <span class="text-brand-500">স্ক্রিনশট</span>
                 </h2>
-                <p class="text-gray-400 text-sm">ছবিতে ক্লিক করে বড় করে দেখুন</p>
+                <p class="text-gray-400 text-sm font-bangla">সোয়াইপ বা বাটনে ক্লিক করে দেখুন</p>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4" id="screenshots-grid"></div>
+            <div class="reveal">
+                <!-- স্লাইডার -->
+                <div class="slider-container" id="slider"
+                     onmouseenter="pauseAutoplay()" onmouseleave="resumeAutoplay()">
+                    <div class="slider-track" id="slider-track">
+                        <!-- JS দিয়ে স্লাইড তৈরি হবে -->
+                    </div>
+                    <button class="slider-btn prev" onclick="slideMove(-1)" aria-label="Previous">
+                        <i class="fas fa-chevron-left text-sm"></i>
+                    </button>
+                    <button class="slider-btn next" onclick="slideMove(1)" aria-label="Next">
+                        <i class="fas fa-chevron-right text-sm"></i>
+                    </button>
+                </div>
+                <!-- ডট -->
+                <div class="slider-dots" id="slider-dots"></div>
+                <!-- অ্যাক্টিভ লেবেল -->
+                <div class="text-center mt-3">
+                    <span class="text-sm text-gray-500 font-bangla" id="slide-label"></span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- টেক স্ট্যাক সেকশন -->
-    <section class="py-16 sm:py-20 bg-gray-50">
+    <!-- টেক স্ট্যাক -->
+    <section class="py-14 sm:py-20 bg-gray-50/80">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="reveal">
-                    <h2 class="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mb-3">
+                    <h2 class="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mb-2">
                         আধুনিক টেকনোলজি দিয়ে <span class="text-brand-500">তৈরি</span>
                     </h2>
-                    <p class="text-gray-500 text-sm mb-8 leading-relaxed">
+                    <p class="text-gray-500 text-sm mb-7 leading-relaxed font-bangla">
                         ফাস্ট লোডিং, সিকিউর আর স্কেলেবল আর্কিটেকচার নিশ্চিত করতে বেস্ট টেকনোলজি ব্যবহার করা হয়েছে।
                     </p>
                     <div class="space-y-3" id="tech-list"></div>
                 </div>
-
-                <div class="reveal" style="transition-delay:0.15s">
+                <div class="reveal" style="transition-delay:0.12s">
                     <div class="bg-gray-900 rounded-2xl overflow-hidden shadow-lg">
                         <div class="flex items-center gap-1.5 px-4 py-3 border-b border-gray-800">
                             <span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span>
@@ -286,46 +413,42 @@
         </div>
     </section>
 
-    <!-- প্রাইসিং সেকশন -->
-    <section class="py-16 sm:py-20" id="pricing">
+    <!-- প্রাইসিং -->
+    <section class="py-14 sm:py-20" id="pricing">
         <div class="max-w-4xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-12 reveal">
-                <h2 class="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mb-3">
+            <div class="text-center mb-10 reveal">
+                <h2 class="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mb-2">
                     সেরা <span class="text-brand-500">প্রাইসে</span> পান
                 </h2>
-                <p class="text-gray-400 text-sm">একবার কিনুন, লাইফটাইম ব্যবহার করুন</p>
+                <p class="text-gray-400 text-sm font-bangla">একবার কিনুন, লাইফটাইম ব্যবহার করুন</p>
             </div>
-
             <div class="grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto">
-                <!-- রেগুলার -->
                 <div class="feature-card reveal">
                     <div class="text-xs text-gray-400 font-heading font-semibold uppercase tracking-wider mb-1">Regular</div>
                     <div class="font-heading font-bold text-3xl text-gray-900 mb-5">DM for Price</div>
-                    <ul class="space-y-2.5 mb-7">
-                        <li class="flex items-center gap-2.5 text-sm text-gray-500"><i class="fas fa-check text-green-500 text-[10px]"></i> All 18 Features</li>
-                        <li class="flex items-center gap-2.5 text-sm text-gray-500"><i class="fas fa-check text-green-500 text-[10px]"></i> Free Installation</li>
-                        <li class="flex items-center gap-2.5 text-sm text-gray-500"><i class="fas fa-check text-green-500 text-[10px]"></i> 6 Months Support</li>
-                        <li class="flex items-center gap-2.5 text-sm text-gray-300"><i class="fas fa-xmark text-gray-300 text-[10px]"></i> Custom Branding</li>
-                        <li class="flex items-center gap-2.5 text-sm text-gray-300"><i class="fas fa-xmark text-gray-300 text-[10px]"></i> Source Code</li>
+                    <ul class="space-y-2.5 mb-7 font-bangla">
+                        <li class="flex items-center gap-2.5 text-sm text-gray-500"><i class="fas fa-check text-green-500 text-[10px]"></i> সব ১৮টি ফিচার</li>
+                        <li class="flex items-center gap-2.5 text-sm text-gray-500"><i class="fas fa-check text-green-500 text-[10px]"></i> ফ্রি ইন্সটলেশন</li>
+                        <li class="flex items-center gap-2.5 text-sm text-gray-500"><i class="fas fa-check text-green-500 text-[10px]"></i> ৬ মাস সাপোর্ট</li>
+                        <li class="flex items-center gap-2.5 text-sm text-gray-300"><i class="fas fa-xmark text-gray-300 text-[10px]"></i> কাস্টম ব্র্যান্ডিং</li>
+                        <li class="flex items-center gap-2.5 text-sm text-gray-300"><i class="fas fa-xmark text-gray-300 text-[10px]"></i> সোর্স কোড</li>
                     </ul>
                     <a href="https://t.me/shozonroy2" target="_blank" class="block text-center border border-gray-200 hover:border-brand-300 text-gray-600 hover:text-brand-600 py-2.5 rounded-lg font-heading font-semibold text-sm transition">
                         Get Started
                     </a>
                 </div>
-
-                <!-- প্রিমিয়াম -->
                 <div class="reveal" style="transition-delay:0.1s">
                     <div class="relative">
                         <div class="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-brand-500 text-white text-[10px] font-heading font-bold px-3 py-0.5 rounded-full z-10 tracking-wider">POPULAR</div>
-                        <div class="feature-card border-brand-300 shadow-sm" style="box-shadow: 0 4px 20px rgba(249,115,22,0.1);">
+                        <div class="feature-card border-brand-300" style="box-shadow: 0 4px 20px rgba(249,115,22,0.08);">
                             <div class="text-xs text-brand-600 font-heading font-semibold uppercase tracking-wider mb-1">Premium</div>
                             <div class="font-heading font-bold text-3xl text-gray-900 mb-5">DM for Price</div>
-                            <ul class="space-y-2.5 mb-7">
-                                <li class="flex items-center gap-2.5 text-sm text-gray-600"><i class="fas fa-check text-brand-500 text-[10px]"></i> All 18 Features</li>
-                                <li class="flex items-center gap-2.5 text-sm text-gray-600"><i class="fas fa-check text-brand-500 text-[10px]"></i> Free Installation</li>
-                                <li class="flex items-center gap-2.5 text-sm text-gray-600"><i class="fas fa-check text-brand-500 text-[10px]"></i> Lifetime Support</li>
-                                <li class="flex items-center gap-2.5 text-sm text-gray-600"><i class="fas fa-check text-brand-500 text-[10px]"></i> Custom Branding</li>
-                                <li class="flex items-center gap-2.5 text-sm text-gray-600"><i class="fas fa-check text-brand-500 text-[10px]"></i> Full Source Code</li>
+                            <ul class="space-y-2.5 mb-7 font-bangla">
+                                <li class="flex items-center gap-2.5 text-sm text-gray-600"><i class="fas fa-check text-brand-500 text-[10px]"></i> সব ১৮টি ফিচার</li>
+                                <li class="flex items-center gap-2.5 text-sm text-gray-600"><i class="fas fa-check text-brand-500 text-[10px]"></i> ফ্রি ইন্সটলেশন</li>
+                                <li class="flex items-center gap-2.5 text-sm text-gray-600"><i class="fas fa-check text-brand-500 text-[10px]"></i> লাইফটাইম সাপোর্ট</li>
+                                <li class="flex items-center gap-2.5 text-sm text-gray-600"><i class="fas fa-check text-brand-500 text-[10px]"></i> কাস্টম ব্র্যান্ডিং</li>
+                                <li class="flex items-center gap-2.5 text-sm text-gray-600"><i class="fas fa-check text-brand-500 text-[10px]"></i> ফুল সোর্স কোড</li>
                             </ul>
                             <a href="https://t.me/shozonroy2" target="_blank" class="block text-center bg-brand-500 hover:bg-brand-600 text-white py-2.5 rounded-lg font-heading font-semibold text-sm transition">
                                 Buy Now
@@ -337,17 +460,18 @@
         </div>
     </section>
 
-    <!-- CTA সেকশন -->
-    <section class="py-16 sm:py-20 bg-brand-50">
+    <!-- CTA -->
+    <section class="py-14 sm:py-20 bg-brand-50">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 text-center reveal">
-            <h2 class="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mb-4">
+            <h2 class="font-heading font-bold text-2xl sm:text-3xl text-gray-900 mb-3 font-bangla">
                 আজই শুরু করুন আপনার টপআপ বিজনেস
             </h2>
-            <p class="text-gray-500 text-sm mb-8 max-w-md mx-auto">
+            <p class="text-gray-500 text-sm mb-8 max-w-md mx-auto font-bangla">
                 যারা Business করতে চান, তাদের জন্য Complete Solution। দেরি না করে এখনই ইনবক্স করুন।
             </p>
             <a href="https://t.me/shozonroy2" target="_blank" class="inline-flex items-center gap-2 bg-brand-500 hover:bg-brand-600 text-white px-8 py-3.5 rounded-xl font-heading font-semibold text-base transition">
-                <i class="fab fa-telegram text-lg"></i> ইনবক্স করুন
+                <i class="fab fa-telegram text-lg"></i>
+                <span class="font-bangla">ইনবক্স করুন</span>
             </a>
         </div>
     </section>
@@ -356,15 +480,12 @@
     <footer class="py-10 border-t border-gray-100">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-2">
-                    <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/Polish_20260722_022100116.png" alt="Logo" class="w-7 h-7 rounded-lg object-cover">
-                    <span class="font-heading font-bold text-gray-900 text-sm">FF TopUp</span>
-                </div>
+                <img src="https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/Polish_20260722_022100116.png" alt="Logo" class="h-7 w-auto rounded-lg object-cover">
                 <div class="flex items-center gap-5">
                     <a href="https://t.me/shozonroy2" target="_blank" class="text-gray-400 hover:text-brand-500 transition" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
                     <a href="https://github.com/shozonroy2" target="_blank" class="text-gray-400 hover:text-brand-500 transition" aria-label="GitHub"><i class="fab fa-github"></i></a>
                 </div>
-                <div class="text-gray-400 text-xs">&copy; 2026 Shozon Roy</div>
+                <div class="text-gray-400 text-xs font-bangla">&copy; ২০২৬ Shozon Roy</div>
             </div>
         </div>
     </footer>
@@ -382,39 +503,39 @@
             { icon: 'fa-globe', title: 'Auto Shell System', desc: 'SG, MY, INDO রিজিওন, আনলিমিটেড অ্যাকাউন্ট' },
             { icon: 'fa-credit-card', title: 'Auto Payment System', desc: 'লাইফটাইম ফ্রি, কোনো মাসিক ফি নেই' },
             { icon: 'fa-boxes-stacked', title: 'Combo Package', desc: 'মাল্টিপল ও কম্বো প্যাকেজ সাপোর্ট' },
-            { icon: 'fa-crown', title: 'Premium User System', desc: 'প্রিমিয়াম ইউজারদের আলাদা সুবিধা' },
-            { icon: 'fa-tag', title: 'Flash Sale System', desc: 'ফ্ল্যাশ সেল প্রোডাক্ট তৈরি করুন' },
-            { icon: 'fa-coins', title: 'Coin Winning System', desc: 'কয়েন জিটে রিওয়ার্ড পাওয়া যায়' },
-            { icon: 'fa-user-plus', title: 'Refer And Earn', desc: 'রেফার করে আয়, অটো ট্র্যাকিং' },
+            { icon: 'fa-crown', title: 'Premium User', desc: 'প্রিমিয়াম ইউজারদের আলাদা সুবিধা' },
+            { icon: 'fa-tag', title: 'Flash Sale', desc: 'ফ্ল্যাশ সেল প্রোডাক্ট তৈরি করুন' },
+            { icon: 'fa-coins', title: 'Coin Winning', desc: 'কয়েন জিটে রিওয়ার্ড পাওয়া যায়' },
+            { icon: 'fa-user-plus', title: 'Refer & Earn', desc: 'রেফার করে আয়, অটো ট্র্যাকিং' },
             { icon: 'fa-trophy', title: 'Leaderboard', desc: 'টপ স্পেন্ডার লিডারবোর্ড' },
-            { icon: 'fa-bell', title: 'Push Notification', desc: 'ওয়েব পুশ নোটিফিকেশন সিস্টেম' },
+            { icon: 'fa-bell', title: 'Push Notification', desc: 'ওয়েব পুশ নোটিফিকেশন' },
             { icon: 'fa-users-gear', title: 'Reseller System', desc: 'রিসেলার প্রোডাক্ট ও সাপোর্ট পিন' },
-            { icon: 'fa-certificate', title: 'Product Badges', desc: 'Hot, New, Best Seller ব্যাজ সিস্টেম' },
-            { icon: 'fa-warehouse', title: 'UC Auto Stock', desc: 'মাল্টিপল UC অটো স্টক ম্যানেজমেন্ট' },
+            { icon: 'fa-certificate', title: 'Product Badges', desc: 'Hot, New, Best Seller ব্যাজ' },
+            { icon: 'fa-warehouse', title: 'UC Auto Stock', desc: 'মাল্টিপল UC অটো স্টক' },
             { icon: 'fa-magnifying-glass', title: 'UID Checker', desc: 'লাইফটাইম ফ্রি UID চেকার' },
-            { icon: 'fa-robot', title: 'Order Notification', desc: 'টেলিগ্রাম বট + ইমেইল নোটিফিকেশন' },
+            { icon: 'fa-robot', title: 'Order Bot', desc: 'টেলিগ্রাম বট + ইমেইল' },
             { icon: 'fa-layer-group', title: 'Unlimited Products', desc: 'আনলিমিটেড প্রোডাক্ট ও ক্যাটাগরি' },
             { icon: 'fa-sliders', title: 'Admin Panel', desc: 'পাওয়ারফুল অ্যাডমিন প্যানেল' },
         ];
 
         const screenshots = [
-            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_002523.png', label: 'Homepage' },
-            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000015.png', label: 'Top Up Page' },
-            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000114.png', label: 'Premium User' },
-            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000254.png', label: 'Leaderboard' },
-            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000330.png', label: 'Banners' },
-            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_002053.png', label: 'Invite & Earn' },
-            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000937.png', label: 'Sidebar' },
-            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000812.png', label: 'User Profile' },
-            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000424.png', label: 'Coin Convert' },
+            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_002523.png', label: 'হোমপেজ' },
+            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000015.png', label: 'টপআপ পেজ' },
+            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000114.png', label: 'প্রিমিয়াম ইউজার' },
+            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000254.png', label: 'লিডারবোর্ড' },
+            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000330.png', label: 'ব্যানার সেকশন' },
+            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_002053.png', label: 'ইনভাইট ও আর্ন' },
+            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000937.png', label: 'সাইডবার' },
+            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000812.png', label: 'ইউজার প্রোফাইল' },
+            { src: 'https://raw.githubusercontent.com/Shozon-Roy/free-fire-topup-website/refs/heads/main/20260730_000424.png', label: 'কয়েন কনভার্ট' },
         ];
 
         const techStack = [
-            { icon: 'fa-code', name: 'Frontend', value: 'Modern HTML / CSS / JavaScript', color: 'text-brand-500' },
+            { icon: 'fa-code', name: 'Frontend', value: 'HTML / CSS / JavaScript', color: 'text-brand-500' },
             { icon: 'fa-server', name: 'Backend', value: 'PHP Laravel', color: 'text-red-500' },
             { icon: 'fa-database', name: 'Database', value: 'MySQL', color: 'text-blue-500' },
-            { icon: 'fa-shield-halved', name: 'Payment', value: 'Secure Gateway Integration', color: 'text-green-500' },
-            { icon: 'fa-bell', name: 'Notification', value: 'Web Push + Email + Telegram', color: 'text-purple-500' },
+            { icon: 'fa-shield-halved', name: 'Payment', value: 'Secure Gateway', color: 'text-green-500' },
+            { icon: 'fa-bell', name: 'Notification', value: 'Push + Email + Telegram', color: 'text-purple-500' },
         ];
 
         // ===== ফিচার কার্ড রেন্ডার =====
@@ -422,7 +543,7 @@
         features.forEach((f, i) => {
             const card = document.createElement('div');
             card.className = 'feature-card reveal';
-            card.style.transitionDelay = `${i * 0.03}s`;
+            card.style.transitionDelay = `${i * 0.025}s`;
             card.innerHTML = `
                 <div class="flex items-start gap-3">
                     <div class="w-8 h-8 rounded-lg bg-brand-50 border border-brand-100 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -430,30 +551,110 @@
                     </div>
                     <div class="min-w-0">
                         <h3 class="font-heading font-semibold text-gray-900 text-sm mb-0.5">${f.title}</h3>
-                        <p class="text-gray-400 text-xs leading-relaxed">${f.desc}</p>
+                        <p class="text-gray-400 text-xs leading-relaxed font-bangla">${f.desc}</p>
                     </div>
                 </div>
             `;
             featuresGrid.appendChild(card);
         });
 
-        // ===== স্ক্রিনশট গ্রিড রেন্ডার =====
-        const screenshotsGrid = document.getElementById('screenshots-grid');
+        // ===== স্লাইডার =====
+        let currentSlide = 0;
+        let autoplayTimer = null;
+        const track = document.getElementById('slider-track');
+        const dotsContainer = document.getElementById('slider-dots');
+        const labelEl = document.getElementById('slide-label');
+        const totalSlides = screenshots.length;
+
+        // স্লাইড তৈরি
         screenshots.forEach((s, i) => {
-            const card = document.createElement('div');
-            card.className = 'screenshot-card reveal';
-            card.style.transitionDelay = `${i * 0.05}s`;
-            card.onclick = () => openLightbox(s.src);
-            card.innerHTML = `
-                <div class="overflow-hidden bg-gray-100" style="aspect-ratio:9/14;">
-                    <img src="${s.src}" alt="${s.label}" class="w-full h-full object-cover object-top" loading="lazy">
-                </div>
-                <div class="px-3 py-2">
-                    <span class="text-[11px] text-gray-500 font-medium">${s.label}</span>
-                </div>
-            `;
-            screenshotsGrid.appendChild(card);
+            const slide = document.createElement('div');
+            slide.className = 'slide';
+            slide.dataset.index = i;
+            slide.innerHTML = `<img src="${s.src}" alt="${s.label}" loading="lazy">`;
+            slide.addEventListener('click', function() {
+                // মাঝের স্লাইডে ক্লিক করলে লাইটবক্স খুলবে
+                if (parseInt(this.dataset.offset) === 0) openLightbox(s.src);
+            });
+            track.appendChild(slide);
+
+            // ডট তৈরি
+            const dot = document.createElement('button');
+            dot.className = 'slider-dot';
+            dot.setAttribute('aria-label', s.label);
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
         });
+
+        function updateSlider() {
+            const slides = track.querySelectorAll('.slide');
+            const dots = dotsContainer.querySelectorAll('.slider-dot');
+
+            slides.forEach(slide => {
+                const idx = parseInt(slide.dataset.index);
+                // সর্বোচ্চ দূরত্ব ক্যালকুলেট (সার্কুলার)
+                let diff = idx - currentSlide;
+                if (diff > totalSlides / 2) diff -= totalSlides;
+                if (diff < -totalSlides / 2) diff += totalSlides;
+                slide.dataset.offset = diff;
+            });
+
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+
+            labelEl.textContent = screenshots[currentSlide].label;
+        }
+
+        function slideMove(dir) {
+            currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+            updateSlider();
+            resetAutoplay();
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateSlider();
+            resetAutoplay();
+        }
+
+        // অটোপ্লে
+        function startAutoplay() {
+            autoplayTimer = setInterval(() => slideMove(1), 3500);
+        }
+        function pauseAutoplay() { clearInterval(autoplayTimer); }
+        function resumeAutoplay() { startAutoplay(); }
+        function resetAutoplay() { pauseAutoplay(); resumeAutoplay(); }
+
+        // টাচ/সোয়াইপ সাপোর্ট
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const slider = document.getElementById('slider');
+
+        slider.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+            pauseAutoplay();
+        }, { passive: true });
+
+        slider.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                slideMove(diff > 0 ? 1 : -1);
+            } else {
+                resumeAutoplay();
+            }
+        }, { passive: true });
+
+        // কীবোর্ড সাপোর্ট
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft') slideMove(-1);
+            if (e.key === 'ArrowRight') slideMove(1);
+        });
+
+        // ইনিশিয়ালাইজ
+        updateSlider();
+        startAutoplay();
 
         // ===== টেক স্ট্যাক রেন্ডার =====
         const techList = document.getElementById('tech-list');
@@ -499,20 +700,20 @@
         }
 
         // ===== স্ক্রল রিভিল =====
-        const revealObserver = new IntersectionObserver((entries) => {
+        const revealObserver = new IntersectionObserver(entries => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('visible');
             });
-        }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+        }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
         document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        // ===== নেভবার স্ক্রল + ব্যাক টু টপ =====
+        // ===== নেভবার + ব্যাক টু টপ =====
         const navbar = document.getElementById('navbar');
         const btt = document.getElementById('btt');
         window.addEventListener('scroll', () => {
             const y = window.scrollY;
-            navbar.classList.toggle('nav-scrolled', y > 30);
-            if (y > 500) {
+            navbar.classList.toggle('nav-scrolled', y > 20);
+            if (y > 400) {
                 btt.style.opacity = '1';
                 btt.style.transform = 'translateY(0)';
                 btt.style.pointerEvents = 'auto';
