@@ -13,7 +13,7 @@
   
 **A fully functional Free Fire top-up platform built with modern web technologies. This project provides a seamless and secure way for users to top up their Free Fire accounts, featuring a responsive design, admin dashboard, and secure payment integration.**
 
-[![Live Demo](https://img.shields.io/badge/📢_Demo-Available-green?style=for-the-badge)](https://shozon-roy.github.io/free-fire-topup-website/)
+[![Live Demo](https://img.shields.io/badge/📢_Demo-Available-green?style=for-the-badge)](https://freefiretopupweb.vercel.app/)
 [![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)](#)
 [![License](https://img.shields.io/badge/License-Premium-gold?style=for-the-badge)](#)
 [![Author](https://img.shields.io/badge/Author-Shozon_Roy-red?style=for-the-badge)](#)
